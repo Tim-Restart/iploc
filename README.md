@@ -17,6 +17,16 @@ Then run:
 `go build .`
 From the root directory for the project.
 
+Usage from the directory will be:
+`./iploc [ip address]`
+
+To make it able to be run from any folder location:
+`sudo mv iploc /usr/local/bin`
+
+This will allow you to run it as:
+`iploc [ip address]` 
+from any folder in the CLI.
+
 ## Single IP
 Usage: `iploc [ip address]`
 This will conduct a query on a single IP address and return the results
