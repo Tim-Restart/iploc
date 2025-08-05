@@ -18,37 +18,35 @@ import (
 //	return s
 // }
 
-func desktopLayout(input *widget.Entry, button, helpButton *widget.Button, table *widget.Table) *fyne.Container {
+func desktopLayout(input *widget.Entry, button, helpButton *widget.Button, fixedContainer *fyne.Container) *fyne.Container {
 	return container.NewGridWithRows(3,
-		container.NewGridWithColumns(5, //First row split into 5
-			helpButton,         // First Row
-			layout.NewSpacer(), // Second row
-			layout.NewSpacer(), // Third Row
-			layout.NewSpacer(), // Fourth Row
-			layout.NewSpacer(), // Fifth Row
-		),
-		container.NewGridWithColumns(3, // Second Row
-			layout.NewSpacer(), // First Column in second row
-			container.NewVBox( // Second Column in Second row (actually two items)
+		container.NewGridWithColumns(3, // 3 x 3 grid made
+			layout.NewSpacer(), // First column
+			container.NewVBox( // Second Column in first row (actually two items)
 				input,
 				button,
+				helpButton,
 			),
 			layout.NewSpacer(), // Third Column in second row
 		),
-		container.NewMax( // Last Row
-			table),
+		fixedContainer,
 	)
 }
 
 var kvPairs [][]string
 
 var resData = make(map[string]string)
+var table *widget.Table
 
 func refreshTable() {
 	kvPairs = kvPairs[:0]
 	for k, v := range resData {
 		kvPairs = append(kvPairs, []string{k, v})
 	}
+	sort.Slice(kvPairs, func(i, j int) bool {
+		return kvPairs[i][0] < kvPairs[j][0]
+	})
+	table.Refresh()
 }
 
 func main() {
@@ -59,7 +57,7 @@ func main() {
 
 	input := widget.NewEntry()
 	input.SetPlaceHolder("Enter IP Address/s...")
-	var table *widget.Table
+	input.Resize(fyne.NewSize(100, 20))
 
 	//results := IPResults{}
 
@@ -75,7 +73,7 @@ func main() {
 		sort.Slice(kvPairs, func(i, j int) bool {
 			return kvPairs[i][0] < kvPairs[j][0]
 		})
-		log.Printf("IP Result: %v\n", results)
+
 		refreshTable()
 	})
 
@@ -93,12 +91,14 @@ func main() {
 		func(i widget.TableCellID, o fyne.CanvasObject) {
 			o.(*widget.Label).SetText(kvPairs[i.Row][i.Col])
 		})
-
+	table.Resize(fyne.NewSize(500, 400))
 	table.SetColumnWidth(0, 100)
 	table.SetColumnWidth(1, 200)
+	fixedContainer := container.NewWithoutLayout(table)
+	fixedContainer.Resize(fyne.NewSize(500, 150))
 
 	// This is the layout for the box, setup is done here, then called in myWindow
-	myWindow.SetContent(desktopLayout(input, button, helpButton, table))
+	myWindow.SetContent(desktopLayout(input, button, helpButton, fixedContainer))
 	myWindow.Resize(fyne.NewSize(600, 450))
 	myWindow.ShowAndRun()
 }
