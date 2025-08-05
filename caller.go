@@ -44,3 +44,6 @@ func getIP(ip string) (*IPResults, error) {
 	return r, nil
 
 }
+
+//func reflectResults(*IPResults) (*)
+//

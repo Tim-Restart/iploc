@@ -18,7 +18,7 @@ import (
 //	return s
 // }
 
-func desktopLayout(input *widget.Entry, button, helpButton *widget.Button, fixedContainer *fyne.Container) *fyne.Container {
+func desktopLayout(input *widget.Entry, button, helpButton *widget.Button, fixedContainer, fixedLabels *fyne.Container) *fyne.Container {
 	return container.NewGridWithRows(3,
 		container.NewGridWithColumns(3, // 3 x 3 grid made
 			layout.NewSpacer(), // First column
@@ -29,6 +29,7 @@ func desktopLayout(input *widget.Entry, button, helpButton *widget.Button, fixed
 			),
 			layout.NewSpacer(), // Third Column in second row
 		),
+		fixedLabels,
 		fixedContainer,
 	)
 }
@@ -48,6 +49,8 @@ func refreshTable() {
 	})
 	table.Refresh()
 }
+
+// Headers for table
 
 func main() {
 
@@ -97,8 +100,20 @@ func main() {
 	fixedContainer := container.NewWithoutLayout(table)
 	fixedContainer.Resize(fyne.NewSize(500, 150))
 
+	ipLabel := widget.NewLabel("IP Address")
+	CnLabel := widget.NewLabel("Country")
+	rgLabel := widget.NewLabel("Region")
+	cityLabel := widget.NewLabel("City")
+	ispLabel := widget.NewLabel("ISP")
+	mobileLabel := widget.NewLabel("Mobile")
+	vpnLabel := widget.NewLabel("VPN")
+
+	fixedLabels := container.NewGridWithColumns(7,
+		ipLabel, CnLabel, rgLabel, cityLabel, ispLabel, mobileLabel, vpnLabel,
+	)
+
 	// This is the layout for the box, setup is done here, then called in myWindow
-	myWindow.SetContent(desktopLayout(input, button, helpButton, fixedContainer))
+	myWindow.SetContent(desktopLayout(input, button, helpButton, fixedContainer, fixedLabels))
 	myWindow.Resize(fyne.NewSize(600, 450))
 	myWindow.ShowAndRun()
 }

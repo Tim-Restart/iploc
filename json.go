@@ -39,15 +39,17 @@ func resultsToSlice(res *IPResults, resData map[string]string) map[string]string
 	resData["2. Country"] = res.Country
 	resData["3. Region"] = res.Region
 	resData["4. City"] = res.City
+	resData["5. ISP"] = res.Isp
+
 	if res.Mobile {
-		resData["5. Mobile"] = "True"
+		resData["6. Mobile"] = "True"
 	} else {
-		resData["5. Mobile"] = "False"
+		resData["6. Mobile"] = "False"
 	}
 	if res.Proxy {
-		resData["6. Proxy/VPN"] = "True"
+		resData["7. Proxy/VPN"] = "True"
 	} else {
-		resData["6. Proxy/VPN"] = "False"
+		resData["7. Proxy/VPN"] = "False"
 	}
 
 	return resData
