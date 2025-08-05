@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 )
 
-	
 type IPResults struct {
 	Query       string  `json:"query"`
 	Status      string  `json:"status"`
@@ -29,4 +28,27 @@ type IPResults struct {
 
 func unmarshalJSON(data []byte, res *IPResults) error {
 	return json.Unmarshal(data, res)
+}
+
+func resultsToSlice(res *IPResults, resData map[string]string) map[string]string {
+	// take the IP results
+	// add them to the map
+	// return the map
+
+	resData["1. IP Address"] = res.Query
+	resData["2. Country"] = res.Country
+	resData["3. Region"] = res.Region
+	resData["4. City"] = res.City
+	if res.Mobile {
+		resData["5. Mobile"] = "True"
+	} else {
+		resData["5. Mobile"] = "False"
+	}
+	if res.Proxy {
+		resData["6. Proxy/VPN"] = "True"
+	} else {
+		resData["6. Proxy/VPN"] = "False"
+	}
+
+	return resData
 }

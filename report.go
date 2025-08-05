@@ -9,23 +9,22 @@ func report(result *IPResults) error {
 ######################################
 Results
 IP: %v
-City: %v 
-Region: %v 
+City: %v
+Region: %v
 Lat/Long: %v, %v
-ISP: %v 
-Hosting: %v 
-Org: %v 
-Proxy: %v 
-Mobile: %v 
+ISP: %v
+Hosting: %v
+Org: %v
+Proxy: %v
+Mobile: %v
 Reverse DNS: %v
 ######################################
 `, result.Query, result.City, result.Region, result.Lat, result.Lon, result.Isp, result.Hosting, result.Org, result.Proxy, result.Mobile, result.Reverse)
 	return nil
 }
 
-
 func help() {
-			fmt.Printf(`
+	fmt.Printf(`
 #################
 Welcome to ipLoc:
 #################
