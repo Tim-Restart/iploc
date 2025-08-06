@@ -12,7 +12,7 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-func desktopLayout(input *widget.Entry, button, helpButton *widget.Button, fixedContainer, fixedLabels *fyne.Container) *fyne.Container {
+func desktopLayout(input *widget.Entry, button, helpButton *widget.Button, fixedContainer, fixedLabels *fyne.Container, rect *canvas.Rectangle) *fyne.Container {
 	return container.NewGridWithRows(3,
 		container.NewGridWithColumns(3, // 3 x 3 grid made
 			layout.NewSpacer(), // First spacer on left, first column first row
@@ -25,6 +25,7 @@ func desktopLayout(input *widget.Entry, button, helpButton *widget.Button, fixed
 		),
 		container.NewVBox(
 			fixedLabels,
+			rect,
 			fixedContainer,
 		),
 	)
@@ -148,9 +149,10 @@ func main() {
 		container.NewWithoutLayout(
 			ipLabel, cityLabel, CnLabel, rgLabel, ispLabel, mobileLabel, vpnLabel,
 		))
-
+	rect := canvas.NewRectangle(color.White)
+	rect.Resize(fyne.NewSize(900, 5))
 	// This is the layout for the box, setup is done here, then called in myWindow
-	myWindow.SetContent(desktopLayout(input, button, helpButton, fixedContainer, fixedLabels))
+	myWindow.SetContent(desktopLayout(input, button, helpButton, fixedContainer, fixedLabels, rect))
 	myWindow.Resize(fyne.NewSize(900, 200))
 	myWindow.ShowAndRun()
 }
