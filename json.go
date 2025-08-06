@@ -54,3 +54,32 @@ func resultsToSlice(res *IPResults, resData map[string]string) map[string]string
 
 	return resData
 }
+
+func resultsSlice(res *IPResults, results []string) []string {
+
+	var mobile string
+	var proxy string
+
+	if res.Mobile {
+		mobile = "True"
+	} else {
+		mobile = "False"
+	}
+	if res.Proxy {
+		proxy = "True"
+	} else {
+		proxy = "False"
+	}
+
+	// Fill slice of slices with multiple resultsSlice
+
+	results[0] = res.Query
+	results[1] = res.City
+	results[2] = res.Region
+	results[3] = res.Country
+	results[4] = res.Isp
+	results[5] = mobile
+	results[6] = proxy
+
+	return results
+}

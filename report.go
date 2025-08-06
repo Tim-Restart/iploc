@@ -45,5 +45,5 @@ If a result is empty, this means there was not data for that field from the API 
 
 Data can be saved to a file using > report.txt or similar
 `)
-	return
+
 }
