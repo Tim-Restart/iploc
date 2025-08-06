@@ -133,7 +133,7 @@ func main() {
 
 	cityLabel := widget.NewLabel("City")
 	cityLabel.Resize(fyne.NewSize(80, 20))
-	cityLabel.Move(fyne.NewPos(125, 0))
+	cityLabel.Move(fyne.NewPos(128, 0))
 
 	rgLabel := widget.NewLabel("Region")
 	rgLabel.Resize(fyne.NewSize(60, 20))
@@ -141,15 +141,15 @@ func main() {
 
 	CnLabel := widget.NewLabel("Country")
 	CnLabel.Resize(fyne.NewSize(100, 20))
-	CnLabel.Move(fyne.NewPos(265, 0))
+	CnLabel.Move(fyne.NewPos(270, 0))
 
 	ispLabel := widget.NewLabel("ISP")
 	ispLabel.Resize(fyne.NewSize(120, 20))
-	ispLabel.Move(fyne.NewPos(410, 0))
+	ispLabel.Move(fyne.NewPos(415, 0))
 
 	mobileLabel := widget.NewLabel("Mobile")
 	mobileLabel.Resize(fyne.NewSize(50, 20))
-	mobileLabel.Move(fyne.NewPos(505, 0))
+	mobileLabel.Move(fyne.NewPos(509, 0))
 
 	vpnLabel := widget.NewLabel("VPN")
 	vpnLabel.Resize(fyne.NewSize(50, 20))
