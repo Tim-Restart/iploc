@@ -3,14 +3,13 @@ package main
 import (
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 )
 
 // Caller function
 
 func getIP(ip string) (*IPResults, error) {
-	log.Print("Entered Check")
+	//log.Print("Entered Check")
 	//var ipResults IPResults
 	var body []byte
 
@@ -37,7 +36,6 @@ func getIP(ip string) (*IPResults, error) {
 
 	err = unmarshalJSON(body, r)
 	if err != nil {
-
 		fmt.Printf("Error: %s", err)
 		return nil, err
 	}

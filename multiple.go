@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"net"
 	"regexp"
 )
@@ -22,8 +21,10 @@ func checkInput(entered string) [][]string {
 			ips = append(ips, string(ip))
 		}
 	}
-	log.Println(ips)
+	//	log.Println(ips)
 	returnSlice := createSlice(ips)
 	return returnSlice
 
 }
+
+// 63.55.113.255 115.55.66.21 49.101.22.35 85.55.63.111

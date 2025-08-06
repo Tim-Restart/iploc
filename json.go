@@ -46,13 +46,21 @@ func resultsSlice(res *IPResults, results []string) []string {
 		proxy = "False"
 	}
 
+	var trimISP string
+	maxLen := 22
+	if len(res.Isp) > maxLen {
+		trimISP = res.Isp[:maxLen]
+	} else {
+		trimISP = res.Isp
+	}
+
 	// Fill slice of slices with multiple resultsSlice
 
 	results[0] = res.Query
 	results[1] = res.City
 	results[2] = res.Region
 	results[3] = res.Country
-	results[4] = res.Isp
+	results[4] = trimISP
 	results[5] = mobile
 	results[6] = proxy
 

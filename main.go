@@ -12,13 +12,6 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-// Trim any comma's located after arguments
-
-//func commaTrim(entered string) string {
-//	s := strings.TrimSuffix(entered, ",")
-//	return s
-// }
-
 func desktopLayout(input *widget.Entry, button, helpButton *widget.Button, fixedContainer, fixedLabels *fyne.Container) *fyne.Container {
 	return container.NewGridWithRows(3,
 		container.NewGridWithColumns(3, // 3 x 3 grid made
@@ -37,14 +30,9 @@ func desktopLayout(input *widget.Entry, button, helpButton *widget.Button, fixed
 	)
 }
 
-// var kvPairs [][]string
-// var results []string
-
-// var resData = make(map[string]string)
 var table *widget.Table
 
 func createSlice(ips []string) [][]string {
-	log.Printf("Length of IPS: %v\n", len(ips))
 	ipAdd := make([][]string, len(ips))
 	for i := range ipAdd {
 		ipAdd[i] = make([]string, 7)
@@ -52,21 +40,17 @@ func createSlice(ips []string) [][]string {
 			ipAdd[i][0] = ips[i]
 		}
 	}
-	log.Printf("Inital IP: %v\n", ips)
-	for n := range ipAdd {
-		log.Printf("IP %v: %v\n", n, ipAdd[n][0])
-	}
-	//log.Printf("IP Add 1: %v\nIP Add 2: %v\n", ipAdd[0][1], ipAdd[1][0])
+
 	return ipAdd
 }
 
-func refreshTable(ips [][]string) {
-	for i := range ips {
-		ips[i] = ips[i][:0]
-	}
+//func refreshTable(ips [][]string) {
+//	for i := range ips {
+//		ips[i] = ips[i][:0]
+//	}
 
-	table.Refresh()
-}
+//	table.Refresh()
+//}
 
 func main() {
 
@@ -78,8 +62,6 @@ func main() {
 	input.SetPlaceHolder("Enter IP Address/s...")
 	input.Resize(fyne.NewSize(100, 20))
 
-	//results := IPResults{}
-	//results := make([]string, 7)
 	var ips [][]string
 
 	button := widget.NewButton("Search", func() {
@@ -89,14 +71,11 @@ func main() {
 			if err != nil {
 				log.Println(err)
 			}
-			log.Printf("This is v: %v\n", ips[i][0])
-			log.Printf("Results from ips%v\n", ips[i])
+
 			resultsSlice(res, ips[i])
 		}
 
-		//log.Print(results)
-
-		//	refreshTable(ips)
+		//refreshTable(ips)
 	})
 
 	helpButton := widget.NewButton("Help", func() {
@@ -114,18 +93,18 @@ func main() {
 			cell.(*widget.Label).SetText(ips[i.Row][i.Col])
 		},
 	)
-	table.Resize(fyne.NewSize(700, 400))
+	table.Resize(fyne.NewSize(900, 400))
 	//for i := 0; i < len(results); i++ {
 	//		table.SetColumnWidth(i, 80)
 	//}
 
-	table.SetColumnWidth(0, 110)
-	table.SetColumnWidth(1, 80)
-	table.SetColumnWidth(2, 60)
-	table.SetColumnWidth(3, 100)
-	table.SetColumnWidth(4, 150)
-	table.SetColumnWidth(5, 50)
-	table.SetColumnWidth(6, 50)
+	table.SetColumnWidth(0, 110) // IP
+	table.SetColumnWidth(1, 170) // City
+	table.SetColumnWidth(2, 60)  // Region
+	table.SetColumnWidth(3, 100) // Country
+	table.SetColumnWidth(4, 190) // ISP
+	table.SetColumnWidth(5, 50)  // Mobile
+	table.SetColumnWidth(6, 50)  // VPN
 
 	fixedContainer := container.NewWithoutLayout(table)
 	fixedContainer.Resize(fyne.NewSize(700, 150))
@@ -139,27 +118,27 @@ func main() {
 
 	cityLabel := widget.NewLabel("City")
 	cityLabel.Resize(fyne.NewSize(80, 20))
-	cityLabel.Move(fyne.NewPos(128, 0))
+	cityLabel.Move(fyne.NewPos(170, 0))
 
 	rgLabel := widget.NewLabel("Region")
 	rgLabel.Resize(fyne.NewSize(60, 20))
-	rgLabel.Move(fyne.NewPos(195, 0))
+	rgLabel.Move(fyne.NewPos(285, 0))
 
 	CnLabel := widget.NewLabel("Country")
 	CnLabel.Resize(fyne.NewSize(100, 20))
-	CnLabel.Move(fyne.NewPos(270, 0))
+	CnLabel.Move(fyne.NewPos(370, 0))
 
 	ispLabel := widget.NewLabel("ISP")
 	ispLabel.Resize(fyne.NewSize(120, 20))
-	ispLabel.Move(fyne.NewPos(415, 0))
+	ispLabel.Move(fyne.NewPos(530, 0))
 
 	mobileLabel := widget.NewLabel("Mobile")
 	mobileLabel.Resize(fyne.NewSize(50, 20))
-	mobileLabel.Move(fyne.NewPos(509, 0))
+	mobileLabel.Move(fyne.NewPos(645, 0))
 
 	vpnLabel := widget.NewLabel("VPN")
 	vpnLabel.Resize(fyne.NewSize(50, 20))
-	vpnLabel.Move(fyne.NewPos(580, 0))
+	vpnLabel.Move(fyne.NewPos(710, 0))
 
 	spacer := canvas.NewRectangle(color.Transparent)
 	spacer.SetMinSize(fyne.NewSize(1, 20))
@@ -172,7 +151,7 @@ func main() {
 
 	// This is the layout for the box, setup is done here, then called in myWindow
 	myWindow.SetContent(desktopLayout(input, button, helpButton, fixedContainer, fixedLabels))
-	myWindow.Resize(fyne.NewSize(700, 200))
+	myWindow.Resize(fyne.NewSize(900, 200))
 	myWindow.ShowAndRun()
 }
 
