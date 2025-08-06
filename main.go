@@ -43,21 +43,27 @@ func desktopLayout(input *widget.Entry, button, helpButton *widget.Button, fixed
 // var resData = make(map[string]string)
 var table *widget.Table
 
-/* Logic for refreshing table with kvPairs - changing to results
-func refreshTable() {
-	kvPairs = kvPairs[:0]
-	for k, v := range resData {
-		kvPairs = append(kvPairs, []string{k, v})
+func createSlice(ips []string) [][]string {
+	log.Printf("Length of IPS: %v\n", len(ips))
+	ipAdd := make([][]string, len(ips))
+	for i := range ipAdd {
+		ipAdd[i] = make([]string, 7)
+		for _ = range ipAdd[i] {
+			ipAdd[i][0] = ips[i]
+		}
 	}
-	sort.Slice(kvPairs, func(i, j int) bool {
-		return kvPairs[i][0] < kvPairs[j][0]
-	})
-	table.Refresh()
+	log.Printf("Inital IP: %v\n", ips)
+	for n := range ipAdd {
+		log.Printf("IP %v: %v\n", n, ipAdd[n][0])
+	}
+	//log.Printf("IP Add 1: %v\nIP Add 2: %v\n", ipAdd[0][1], ipAdd[1][0])
+	return ipAdd
 }
-*/
-// For results struct
-func refreshTable(results []string) {
-	results = results[:0]
+
+func refreshTable(ips [][]string) {
+	for i := range ips {
+		ips[i] = ips[i][:0]
+	}
 
 	table.Refresh()
 }
@@ -73,23 +79,24 @@ func main() {
 	input.Resize(fyne.NewSize(100, 20))
 
 	//results := IPResults{}
-	results := make([]string, 7)
+	//results := make([]string, 7)
+	var ips [][]string
 
 	button := widget.NewButton("Search", func() {
-		res, err := getIP(input.Text)
-		if err != nil {
-			log.Println(err)
+		ips = checkInput(input.Text)
+		for i := range ips {
+			res, err := getIP(ips[i][0])
+			if err != nil {
+				log.Println(err)
+			}
+			log.Printf("This is v: %v\n", ips[i][0])
+			log.Printf("Results from ips%v\n", ips[i])
+			resultsSlice(res, ips[i])
 		}
-		resultsSlice(res, results)
-		/* Removed and tried a slice for 6 columns layout
-		for k, v := range results {
-			kvPairs = append(kvPairs, []string{k, v})
-		}
-		sort.Slice(kvPairs, func(i, j int) bool {
-			return kvPairs[i][0] < kvPairs[j][0]
-		*/
-		log.Println(results)
-		refreshTable(results)
+
+		//log.Print(results)
+
+		//	refreshTable(ips)
 	})
 
 	helpButton := widget.NewButton("Help", func() {
@@ -98,15 +105,13 @@ func main() {
 
 	table = widget.NewTable(
 		func() (int, int) {
-			return 1, len(results)
+			return len(ips), 7
 		},
 		func() fyne.CanvasObject {
 			return widget.NewLabel("IP Results")
 		},
 		func(i widget.TableCellID, cell fyne.CanvasObject) {
-			if i.Row == 0 {
-				cell.(*widget.Label).SetText(results[i.Col])
-			}
+			cell.(*widget.Label).SetText(ips[i.Row][i.Col])
 		},
 	)
 	table.Resize(fyne.NewSize(700, 400))
@@ -122,11 +127,12 @@ func main() {
 	table.SetColumnWidth(5, 50)
 	table.SetColumnWidth(6, 50)
 
-	//table.SetColumnWidth(0, 100)
-	//table.SetColumnWidth(1, 200)
 	fixedContainer := container.NewWithoutLayout(table)
 	fixedContainer.Resize(fyne.NewSize(700, 150))
 
+	// Code relating to labels used as headers for the table
+	// Manually create the headers, and then size and position the text
+	// according the the table output
 	ipLabel := widget.NewLabel("IP Address")
 	ipLabel.Resize(fyne.NewSize(100, 20))
 	ipLabel.Move(fyne.NewPos(10, 0))
@@ -163,8 +169,6 @@ func main() {
 		container.NewWithoutLayout(
 			ipLabel, cityLabel, CnLabel, rgLabel, ispLabel, mobileLabel, vpnLabel,
 		))
-	//	fixedLabels.Resize(fyne.NewSize(590, 20))
-	//fixedLabels.SetMinSize(fyne.NewSize(590, 20))
 
 	// This is the layout for the box, setup is done here, then called in myWindow
 	myWindow.SetContent(desktopLayout(input, button, helpButton, fixedContainer, fixedLabels))

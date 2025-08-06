@@ -37,6 +37,7 @@ func getIP(ip string) (*IPResults, error) {
 
 	err = unmarshalJSON(body, r)
 	if err != nil {
+
 		fmt.Printf("Error: %s", err)
 		return nil, err
 	}

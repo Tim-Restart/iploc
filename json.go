@@ -30,31 +30,6 @@ func unmarshalJSON(data []byte, res *IPResults) error {
 	return json.Unmarshal(data, res)
 }
 
-func resultsToSlice(res *IPResults, resData map[string]string) map[string]string {
-	// take the IP results
-	// add them to the map
-	// return the map
-
-	resData["1. IP Address"] = res.Query
-	resData["2. Country"] = res.Country
-	resData["3. Region"] = res.Region
-	resData["4. City"] = res.City
-	resData["5. ISP"] = res.Isp
-
-	if res.Mobile {
-		resData["6. Mobile"] = "True"
-	} else {
-		resData["6. Mobile"] = "False"
-	}
-	if res.Proxy {
-		resData["7. Proxy/VPN"] = "True"
-	} else {
-		resData["7. Proxy/VPN"] = "False"
-	}
-
-	return resData
-}
-
 func resultsSlice(res *IPResults, results []string) []string {
 
 	var mobile string
